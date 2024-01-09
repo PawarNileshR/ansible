@@ -1,0 +1,17 @@
+---
+# tasks file for nginx-2
+        
+        - name: change directory
+     	  shell: cd /tmp/
+     	  
+     	- name: Adding varnish mainline deb
+     	  shell: wget http://nginx.org/keys/nginx_signing.key
+     	  
+	- name: Adding varnish mainline deb
+     	  shell: sudo apt-key add nginx_signing.key
+     	  
+     	- name: Adding nginx mainline deb
+          shell: echo "deb http://nginx.org/packages/mainline/ubuntu/ jammy nginx" >> /etc/apt/sources.list.d/nginx.list
+          
+        - name: Adding nginx mainline deb src
+          shell: echo "deb-src http://nginx.org/packages/mainline/ubuntu/ jammy nginx" >> /etc/apt/sources.list.d/nginx.lis

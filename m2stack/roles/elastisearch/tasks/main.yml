@@ -1,0 +1,27 @@
+---
+##############  Elasticsearch installation  ##########
+  - name: Add Elasticsearch GPG key
+    apt_key:
+      url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      state: present
+
+  - name: Add Elasticsearch APT repository
+    apt_repository:
+      repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+      state: present
+
+  - name: Update APT cache
+    apt:
+      update_cache: yes
+
+  - name: Install Elasticsearch
+    apt:
+      name: elasticsearch
+      state: present
+
+  - name: Start and enable Elasticsearch service
+    systemd:
+      name: elasticsearch
+      state: started
+      enabled: yes
+

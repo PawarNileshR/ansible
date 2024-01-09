@@ -1,0 +1,19 @@
+---
+# tasks file for user/
+#   - name: Create user
+#     user:
+#       name: nilesh      # Replace with the desired username
+#       password: "{{ 'nilesh' | password_hash('nilesh') }}"  # Replace 'password' with the desired password
+#       state: present
+
+   - name: Creating Directory
+     file: path={{ webroot }}/{{ url }} state=directory
+
+   - name: Adding user
+     user: name={{ user }} home={{ webroot }}/{{ url }} createhome=no
+
+   - name: Setting Directory Ownership
+     file: path={{ webroot }}/{{ url }} state=directory owner={{ user }} group={{ group }} mode=0755 recurse=yes
+
+   - name: Add deployment user
+     action: user name=nilesh password={{passwd}}

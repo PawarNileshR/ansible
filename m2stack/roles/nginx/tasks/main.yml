@@ -1,0 +1,52 @@
+---
+# tasks file for nginx/
+
+   - name: Delete a file
+     shell: rm -rf /etc/nginx/conf.d/*.conf
+
+   - name: change directory
+     shell: cd /tmp/
+
+   - name: download key
+     shell: wget http://nginx.org/keys/nginx_signing.key
+
+   - name: Adding key
+     shell: sudo apt-key add nginx_signing.key
+
+   - name: Adding nginx mainline deb
+     shell: echo "deb http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" >> /etc/apt/sources.list.d/nginx.list
+
+   - name: Adding nginx mainline deb src
+     shell: echo "deb-src http://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" >> /etc/apt/sources.list.d/nginx.list
+
+   - name: Install Nginx
+     apt: pkg=nginx state=present update_cache=true
+#     notify:
+#  - start nginx
+#  - name: Starting Nginx
+#    service: name=nginx state=started
+
+   #- name: Configuring Nginx Config file
+     #template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+
+     #- name: Configuring Nginx config under conf.d for prod
+     #template: src=nilesh.krishtechnolabs.net.conf.j2 dest=/etc/nginx/conf.d/{{ url }}.conf
+
+     #- name: Creating Webroot Directory for prod
+     #file: path={{ webroot }}/{{ url }}/webroot state=directory owner={{ user }} group={{ group }} mode=0755 recurse=yes
+
+     #- name: Configuring info.php file
+     #template: src=info.php.j2 dest=/{{ webroot }}/{{ url }}/webroot/info.php
+
+     #- name: Configuration index.html file
+     #template: src=index.html.j2 dest=/{{ webroot }}/{{ url }}/webroot/index.html
+
+     #- name: user,grop and permission change
+     #file: path={{ webroot }}/{{ url }}/webroot/index.html owner={{ user }} group={{ group }} mode=0644
+
+     #- name: user,grop and permission change
+     #file: path={{ webroot }}/{{ url }}/webroot/info.php owner={{ user }} group={{ group }} mode=0644
+
+   - name: Starting Nginx
+     service: name=nginx state=restarted
+

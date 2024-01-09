@@ -1,0 +1,31 @@
+upstream {{ subdomain }}.{{ domain }}-backend {
+        server unix:/var/run/php/{{ url }}.sock;
+}
+
+server {
+    #listen 443 ssl;
+    #listen [::]:443 ssl;
+    #include /etc/nginx/snippets/self-signed.conf;
+    #include /etc/nginx/snippets/ssl-params.conf;
+	
+    listen 80;
+    
+    server_name {{ url }};
+
+    root {{ webroot }}/{{ url }}/webroot;
+    index  index.php index.html index.htm;
+
+    #set $MAGE_ROOT {{ webroot }}/{{ url }}/webroot;
+    #include /var/www/html/config/nilesh.krishtechnolabs.net.conf;
+
+    location ~ \.php$ {
+         fastcgi_pass unix:/var/run/php/{{ url }}.sock;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         include fastcgi_params;
+    }
+
+    access_log /var/log/nginx/nilesh-krishtechnolabs-net-access.log;
+    error_log  /var/log/nginx/nilesh-krishtechnolabs-net-error.log notice;
+
+}
+

@@ -1,0 +1,26 @@
+---
+# tasks file for Varnish
+
+   - name: Required tool nstall 
+     shell: sudo apt-get install curl gnupg apt-transport-https
+     
+   - name: Create the directory to import the GPG key
+     shell: mkdir -p /etc/apt/keyrings/
+
+   - name: Adding viarnish signing key
+     shell: curl -fsSL https://packagecloud.io/varnishcache/varnish62/gpgkey | gpg --dearmor > /etc/apt/keyrings/varnishcache_varnish62-archive-keyring.gpg
+     
+   - name: Adding varnish mainline deb
+     shell: echo "deb https://packagecloud.io/varnishcache/varnish62/ubuntu jammy main" > "/etc/apt/keyrings/varnishcache_varnish62-archive-keyring.gpg"
+     
+   - name: Adding varnish mainline deb
+     shell: echo "deb-src https://packagecloud.io/varnishcache/varnish62/ubuntu jammy main" > "/etc/apt/keyrings/varnishcache_varnish62-archive-keyring.gpg" 
+     
+   - name: Update
+     shell: sudo apt update -y
+     
+   - name: Install varnish62
+     shell: sudo apt install varnish -y
+     
+   - name: Retarting varnish
+     service: name=varnish state=restarted

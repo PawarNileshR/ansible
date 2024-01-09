@@ -1,0 +1,32 @@
+---
+# vars file for nginx
+webroot: /var/www/html
+url: nilesh.krishtechnolabs.net
+user: live_jackys
+group: live_jackys
+subdomain: www
+domain: nilesh.krishtechnolabs.net
+tld: com
+                                            #########  php  ############
+php_version: 8.1
+
+                                            #########  mysql  ##############
+percona_version: ps80
+MySQL_root_pass: mysql@123
+database_prod: production
+mysql_prod_user: prod-user
+mysql_prod_pass: 8U2tugdhTyuzc5Rt
+                                            #########  varnish  ###########
+
+varnish_repo_version: 70
+varnish_version: 7.1
+
+                                            #########  elasticserach  ########
+
+elasticsearch_version: 7.1
+                                            ############  Composer  #########
+
+composer_version: 2
+
+sudo_user: root
+

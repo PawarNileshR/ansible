@@ -1,0 +1,27 @@
+---
+# tasks file for mysql
+  - name: Changing current directory
+    shell: cd /tmp/
+
+  - name: Downloading Percona Repo
+    shell: wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
+
+  - name: Installing percona Repo
+    shell: dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
+
+  - name: Update APT
+    shell: apt-get update
+
+  - name: Set MySQL root password before installing
+    debconf: name='mysql-server' question='mysql-server/root_password' value='{{MySQL_root_pass | quote}}' vtype='password'
+
+  - name: Confirm MySQL root password before installing
+    debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{MySQL_root_pass | quote}}' vtype='password'
+
+  - name: Adding Percona MySQL {{ percona_version }} repo
+    shell: percona-release setup {{ percona_version }}
+
+  - name: Installing Percona MySQL Server 8.0
+    apt: pkg=percona-server-server state=present update_cache=true
+    when: percona_version == 'ps80'
+
